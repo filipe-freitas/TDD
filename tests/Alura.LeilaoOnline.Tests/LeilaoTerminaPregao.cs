@@ -11,6 +11,8 @@ namespace Alura.LeilaoOnline.Tests
             //Arrange
             var leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("fulano", leilao);
+
+            leilao.IniciaPregao();
             foreach(var lance in valorLances){
                 leilao.RecebeLance(fulano, lance);
             }
@@ -30,8 +32,16 @@ namespace Alura.LeilaoOnline.Tests
             //Arrange
             var leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("fulano", leilao);
-            foreach(var lance in valorLances){
-                leilao.RecebeLance(fulano, lance);
+            var beltrano = new Interessada("beltrano", leilao);
+
+            leilao.IniciaPregao();
+            for (int i = 0; i < valorLances.Length; i++)
+            {
+                var lance = valorLances[i];
+                if (i % 2 == 0)
+                    leilao.RecebeLance(fulano, lance);
+                else
+                    leilao.RecebeLance(beltrano, lance);
             }
 
             //Act

@@ -15,6 +15,7 @@ namespace Alura.LeilaoOnline.Tests
             var beltrano = new Interessada("beltrano", leilao);
             var sicrano = new Interessada("sicrano", leilao);
 
+            leilao.IniciaPregao();
             leilao.RecebeLance(fulano, 800);
             leilao.RecebeLance(beltrano, 1000);
             leilao.RecebeLance(sicrano, 1200);
@@ -25,6 +26,44 @@ namespace Alura.LeilaoOnline.Tests
 
             //Assert
             Assert.Equal(3, leilao.Lances.Count());
+        }
+
+
+        [Theory]
+        [InlineData(0, new double[] { 800 })]
+        public void NaoPermiteLancesAntesIniciarPregao(int qtdLancesEsperados, double[] valorLances)
+        {
+            //Arrange
+            var leilao = new Leilao("Van Gogh");
+            var fulano = new Interessada("fulano", leilao);
+            
+            //Act
+            foreach(var lance in valorLances){
+                leilao.RecebeLance(fulano, lance);
+            }
+            leilao.TerminaPregao();
+
+            //Assert
+            Assert.Equal(qtdLancesEsperados, leilao.Lances.Count());
+        }
+
+        [Theory]
+        [InlineData(1, new double[] { 800, 900 })]
+        public void NaoPermiteLancesConsecutivosInteressados(int qtdLancesEsperados, double[] valorLances)
+        {
+            //Arrange
+            var leilao = new Leilao("Van Gogh");
+            var fulano = new Interessada("fulano", leilao);
+            leilao.IniciaPregao();
+            
+            //Act
+            foreach(var lance in valorLances){
+                leilao.RecebeLance(fulano, lance);
+            }
+            leilao.TerminaPregao();
+
+            //Assert
+            Assert.Equal(qtdLancesEsperados, leilao.Lances.Count());
         }
 
     }
