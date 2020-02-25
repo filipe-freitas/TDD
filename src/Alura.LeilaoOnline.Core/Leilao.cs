@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Alura.LeilaoOnline.Core
 {
@@ -13,16 +12,19 @@ namespace Alura.LeilaoOnline.Core
         }
 
         private IList<Lance> _lances;
+        private IModalidadeAvalicao _avaliador;
+        private Interessada _clienteAnterior = null;
+
         public IEnumerable<Lance> Lances => _lances;
         public string Peca { get; }
         public Lance Ganhador { get; private set; }
         public EstadoLeilao Estado { get; private set; }
-        private Interessada _clienteAnterior = null;
 
-        public Leilao(string peca)
+        public Leilao(string peca, IModalidadeAvalicao avaliador)
         {
             Peca = peca;
             _lances = new List<Lance>();
+            _avaliador = avaliador;
             Estado = EstadoLeilao.Iniciado;
         }
 
@@ -49,10 +51,8 @@ namespace Alura.LeilaoOnline.Core
             if (Estado != EstadoLeilao.EmAndamento){
                 throw new System.InvalidOperationException();
             }
-            Ganhador = Lances
-                .DefaultIfEmpty(new Lance(null, 0))
-                .OrderBy(ob => ob.Valor)
-                .Last();
+
+            Ganhador = _avaliador.Avalia(this);
             
             Estado = EstadoLeilao.Finalizado;
         }

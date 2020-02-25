@@ -10,7 +10,8 @@ namespace Alura.LeilaoOnline.Tests
         public void NaoPermiteNovosLancesAposLeilaoFinalizado()
         {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("fulano", leilao);
             var beltrano = new Interessada("beltrano", leilao);
             var sicrano = new Interessada("sicrano", leilao);
@@ -33,7 +34,8 @@ namespace Alura.LeilaoOnline.Tests
         public void NaoPermiteLancesAntesIniciarPregao(int qtdLancesEsperados, double[] valorLances)
         {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("fulano", leilao);
             
             //Act
@@ -52,7 +54,8 @@ namespace Alura.LeilaoOnline.Tests
         public void NaoPermiteLancesConsecutivosInteressados(int qtdLancesEsperados, double[] valorLances)
         {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("fulano", leilao);
             leilao.IniciaPregao();
             

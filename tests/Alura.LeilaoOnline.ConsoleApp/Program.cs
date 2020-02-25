@@ -7,7 +7,8 @@ namespace Alura.LeilaoOnline.ConsoleApp
     {
         public static void UmLance() {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
 
             var fulano = new Interessada("fulano", leilao);
             leilao.RecebeLance(fulano, 800);
@@ -23,7 +24,8 @@ namespace Alura.LeilaoOnline.ConsoleApp
 
         public static void VariosLances() {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
 
             var fulano = new Interessada("fulano", leilao);
             var sicrano = new Interessada("sicrano", leilao);

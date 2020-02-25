@@ -10,7 +10,8 @@ namespace Alura.LeilaoOnline.Tests
         public void SemLances(double valorEsperado, double[] valorLances)
         {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("fulano", leilao);
 
             leilao.IniciaPregao();
@@ -32,7 +33,8 @@ namespace Alura.LeilaoOnline.Tests
         public void ComLances(double valorEsperado, double[] valorLances)
         {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("fulano", leilao);
             var beltrano = new Interessada("beltrano", leilao);
 
@@ -57,7 +59,8 @@ namespace Alura.LeilaoOnline.Tests
         public void SemInicioPregao()
         {
             //Arrange
-            var leilao = new Leilao("Van Gogh");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("fulano", leilao);
 
             leilao.RecebeLance(fulano, 300);
@@ -67,6 +70,33 @@ namespace Alura.LeilaoOnline.Tests
                 //Act
                 () => leilao.TerminaPregao()
             );
+        }
+
+        [Theory]
+        [InlineData(1000, 1092, new double[] { 700, 800, 900, 980, 1092, 1200 })]
+        public void ModalidadeOfertaMaisProximaValor(double valorItem, double valorEsperado, double[] lances)
+        {
+            //Assert
+            var modalidade = new OfertaSuperiorMaisProxima(valorItem);
+            var leilao = new Leilao("Van Gogh", modalidade);
+            var fulano = new Interessada("fulano", leilao);
+            var beltrano = new Interessada("beltrano", leilao);
+
+            leilao.IniciaPregao();
+            for (int i = 0; i < lances.Length; i++)
+            {
+                var lance = lances[i];
+                if (i%2 == 0)
+                    leilao.RecebeLance(fulano, lance);
+                else
+                    leilao.RecebeLance(beltrano, lance);
+            }
+
+            //Act
+            leilao.TerminaPregao();
+
+            //Assert
+            Assert.Equal(valorEsperado, leilao.Ganhador.Valor);            
         }
     }
 }
