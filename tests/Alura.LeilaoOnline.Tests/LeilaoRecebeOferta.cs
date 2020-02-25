@@ -28,7 +28,6 @@ namespace Alura.LeilaoOnline.Tests
             Assert.Equal(3, leilao.Lances.Count());
         }
 
-
         [Theory]
         [InlineData(0, new double[] { 800 })]
         public void NaoPermiteLancesAntesIniciarPregao(int qtdLancesEsperados, double[] valorLances)
@@ -41,6 +40,7 @@ namespace Alura.LeilaoOnline.Tests
             foreach(var lance in valorLances){
                 leilao.RecebeLance(fulano, lance);
             }
+            leilao.IniciaPregao();
             leilao.TerminaPregao();
 
             //Assert
@@ -65,6 +65,5 @@ namespace Alura.LeilaoOnline.Tests
             //Assert
             Assert.Equal(qtdLancesEsperados, leilao.Lances.Count());
         }
-
     }
 }

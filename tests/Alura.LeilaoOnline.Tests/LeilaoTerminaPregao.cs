@@ -7,7 +7,8 @@ namespace Alura.LeilaoOnline.Tests
     {
         [Theory]
         [InlineData(0, new double [] { })]
-        public void SemLances(double valorEsperado, double[] valorLances){
+        public void SemLances(double valorEsperado, double[] valorLances)
+        {
             //Arrange
             var leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("fulano", leilao);
@@ -28,7 +29,8 @@ namespace Alura.LeilaoOnline.Tests
         [InlineData(800, new double [] { 800 })]
         [InlineData(1000, new double [] { 800, 900, 1000 })]
         [InlineData(1000, new double [] { 800, 900, 1000, 950 })]
-        public void ComLances(double valorEsperado, double[] valorLances){
+        public void ComLances(double valorEsperado, double[] valorLances)
+        {
             //Arrange
             var leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("fulano", leilao);
@@ -49,6 +51,22 @@ namespace Alura.LeilaoOnline.Tests
 
             //Assert
             Assert.Equal(valorEsperado, leilao.Ganhador.Valor);
+        }
+
+        [Fact]
+        public void SemInicioPregao()
+        {
+            //Arrange
+            var leilao = new Leilao("Van Gogh");
+            var fulano = new Interessada("fulano", leilao);
+
+            leilao.RecebeLance(fulano, 300);
+
+            //Assert
+            Assert.Throws<System.InvalidOperationException>(
+                //Act
+                () => leilao.TerminaPregao()
+            );
         }
     }
 }

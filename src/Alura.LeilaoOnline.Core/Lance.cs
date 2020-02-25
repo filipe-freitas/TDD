@@ -7,6 +7,9 @@ namespace Alura.LeilaoOnline.Core
 
         public Lance(Interessada cliente, double valor)
         {
+            if (valor < 0)
+                throw new System.ArgumentException();
+
             Cliente = cliente;
             Valor = valor;
         }
